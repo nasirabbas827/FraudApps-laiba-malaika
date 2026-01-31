@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}App Analysis Dashboard | AppGuard AI{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-8">
+            <h2 class="display-5 font-weight-bold text-dark">
+                <i class="fas fa-chart-line text-info mr-2"></i>Application Analysis
+            </h2>
+            <p class="lead text-muted">
+                Identifying deceptive patterns using <strong>SentiWordNet</strong> and Opinion Mining.
+            </p>
+        </div>
+        <div class="col-md-4 text-md-right">
+            <div class="p-3 bg-white shadow-sm rounded-lg border-left border-info">
+                <small class="text-uppercase font-weight-bold text-muted d-block mb-1">System Status</small>
+                <span class="badge badge-pill badge-success mr-1"><i class="fas fa-check-circle"></i> Online</span>
+                <span class="badge badge-pill badge-info"><i class="fas fa-microchip"></i> NLP Active</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for app in applications %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm hover-shadow transition-all" style="border-radius: 15px; overflow: hidden;">
+                
+                <div class="position-relative">
+                    {% if app.image %}
+                        <img src="{{ app.image.url }}" class="card-img-top" alt="{{ app.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-mobile-alt fa-4x text-white-50"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="position-absolute" style="top: 15px; right: 15px;">
+                        {% if app.is_fraud %}
+                            <span class="badge badge-danger px-3 py-2 shadow-sm" style="font-size: 0.85rem;">
+                                <i class="fas fa-exclamation-triangle mr-1"></i> Fraud Detected
+                            </span>
+                        {% else %}
+                            <span class="badge badge-success px-3 py-2 shadow-sm" style="font-size: 0.85rem;">
+                                <i class="fas fa-check-shield mr-1"></i> Verified Genuine
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title font-weight-bold mb-0 text-truncate" style="max-width: 70%;">{{ app.name }}</h5>
+                        <span class="text-warning font-weight-bold">
+                            <i class="fas fa-star mr-1"></i>{{ app.rating|default:"0.0" }}
+                        </span>
+                    </div>
+                    
+                    <p class="badge badge-light text-muted border mb-3">{{ app.category.name }}</p>
+                    
+                    <p class="card-text text-secondary small">
+                        {{ app.description|truncatechars:110 }}
+                    </p>
+                </div>
+
+                <div class="card-footer bg-white border-0 pb-4 pt-0">
+                    <div class="row no-gutters">
+                        <div class="col-6 pr-1">
+                            <a href="{% url 'app_details' app.id %}" class="btn btn-outline-primary btn-block btn-sm font-weight-bold">
+                                <i class="fas fa-info-circle mr-1"></i> Details
+                            </a>
+                        </div>
+                        <div class="col-6 pl-1">
+                            <a href="{% url 'add_review' app.id %}" class="btn btn-primary btn-block btn-sm font-weight-bold shadow-sm">
+                                <i class="fas fa-pen-alt mr-1"></i> Review
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 py-5 text-center">
+            <div class="py-5">
+                <i class="fas fa-folder-open fa-4x text-light mb-3"></i>
+                <h4 class="text-muted">No Applications Found</h4>
+                <p>The system hasn't analyzed any applications yet.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+    .transition-all {
+        transition: all 0.3s ease-in-out;
+    }
+</style>
+{% endblock %}

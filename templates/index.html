@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}AppGuard AI - Detect Fraud Apps with Sentiment Analysis{% endblock %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid text-white mb-0" style="background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; padding: 7rem 0; border-radius: 0;">
+    <div class="container text-center">
+        <h1 class="display-3 mb-3 font-weight-bold"><i class="fas fa-shield-virus mr-3 text-info"></i>AppGuard AI</h1>
+        <p class="lead mb-4 mx-auto" style="max-width: 800px;">Protecting users from deceptive mobile applications. We use <strong>Opinion Mining</strong> and <strong>Sentiment Analysis</strong> to identify fraud apps based on user experience and review patterns.</p>
+        
+        {% if request.session.user_id %}
+            <div class="d-flex justify-content-center align-items-center">
+                <span class="mr-4 lead text-light">Welcome, <strong>{{ request.session.username }}</strong></span>
+                <a href="{% url 'dashboard' %}" class="btn btn-info btn-lg px-5 shadow-lg font-weight-bold">
+                    <i class="fas fa-th-large mr-2"></i>Browse Applications
+                </a>
+            </div>
+        {% else %}
+            <div class="mt-4">
+                <a href="{% url 'login' %}" class="btn btn-info btn-lg px-5 mr-3 shadow-lg font-weight-bold">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login to Start
+                </a>
+                <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-5 shadow-lg">
+                    <i class="fas fa-user-plus mr-2"></i>Register
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="bg-white py-5 border-bottom">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="p-4">
+                    <i class="fas fa-comments fa-3x text-info mb-3"></i>
+                    <h5 class="font-weight-bold">Collect Reviews</h5>
+                    <p class="text-muted small">We aggregate user feedback and ratings for diverse mobile applications across categories.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4">
+                    <i class="fas fa-brain fa-3x text-info mb-3"></i>
+                    <h5 class="font-weight-bold">Sentiment Analysis</h5>
+                    <p class="text-muted small">Using <strong>SentiWordNet</strong>, we classify comments as Positive, Negative, or Neutral to find hidden patterns.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4">
+                    <i class="fas fa-user-shield fa-3x text-info mb-3"></i>
+                    <h5 class="font-weight-bold">Fraud Detection</h5>
+                    <p class="text-muted small">Admins analyze the sentiment scores vs. official ratings to mark apps as <strong>Genuine</strong> or <strong>Fraud</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="analyze" class="container my-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <h2 class="font-weight-bold mb-4">Why Sentiment Analysis?</h2>
+            <p class="text-secondary">App stores are often flooded with fake positive reviews to boost rankings. Our system digs deeper into the <strong>textual sentiment</strong> of reviews to find discrepancies.</p>
+            <ul class="list-unstyled">
+                <li class="mb-3"><i class="fas fa-check text-success mr-2"></i> Detect automated bot reviews</li>
+                <li class="mb-3"><i class="fas fa-check text-success mr-2"></i> Identify mismatch between text and star-ratings</li>
+                <li class="mb-3"><i class="fas fa-check text-success mr-2"></i> Rank apps based on real human sentiment</li>
+            </ul>
+            {% if not request.session.user_id %}
+            <a href="{% url 'register' %}" class="btn btn-primary mt-3">Create Researcher Account</a>
+            {% endif %}
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+                <div class="card-header bg-primary text-white py-3 border-0">
+                    <h5 class="mb-0"><i class="fas fa-robot mr-2"></i> System Intelligence</h5>
+                </div>
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h1 class="text-primary font-weight-bold">94%</h1>
+                        <p class="text-muted font-weight-bold uppercase small">Average Detection Accuracy</p>
+                    </div>
+                    <div class="progress mb-3" style="height: 10px;">
+                        <div class="progress-bar bg-info" style="width: 85%"></div>
+                    </div>
+                    <p class="small text-muted mb-0">Our NLP engine processes thousands of linguistic tokens to ensure the reliability of every sentiment score generated.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .jumbotron h1 { text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    .btn-lg { border-radius: 50px; }
+    .card { transition: transform 0.3s ease; }
+    .card:hover { transform: translateY(-10px); }
+</style>
+{% endblock %}

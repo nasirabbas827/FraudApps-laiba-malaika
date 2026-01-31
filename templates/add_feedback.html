@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}System Feedback | AppGuard AI{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            
+            <div class="text-center mb-4">
+                <div class="d-inline-block p-3 bg-white shadow-sm rounded-circle mb-3">
+                    <i class="fas fa-bullhorn fa-2x text-info"></i>
+                </div>
+                <h2 class="font-weight-bold">System Feedback</h2>
+                <p class="text-muted">Help us refine our Sentiment Analysis engine and Fraud Detection algorithms.</p>
+            </div>
+
+            <div class="card shadow-sm border-0" style="border-radius: 15px;">
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        
+                        
+                        <div class="form-group mb-4">
+                            <label class="font-weight-bold small text-uppercase text-muted">Message</label>
+                            <textarea name="message" class="form-control bg-light border-0 shadow-none" 
+                                      rows="6" placeholder="Please describe your feedback in detail..." required 
+                                      style="border-radius: 10px;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-info btn-block btn-lg shadow-sm font-weight-bold py-3" style="border-radius: 10px;">
+                            <i class="fas fa-paper-plane mr-2"></i>Send to Admin
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'dashboard' %}" class="text-muted small">
+                    <i class="fas fa-chevron-left mr-1"></i> Return to Dashboard
+                </a>
+            </div>
+
+            <div class="alert alert-light border mt-5 small text-center shadow-sm">
+                <i class="fas fa-lock mr-2 text-warning"></i>
+                <strong>Privacy Note:</strong> This feedback is sent directly to the Admin panel for review and system monitoring purposes.
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus {
+        background-color: #ffffff !important;
+        box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25) !important;
+        border: 1px solid #38bdf8 !important;
+    }
+</style>
+{% endblock %}

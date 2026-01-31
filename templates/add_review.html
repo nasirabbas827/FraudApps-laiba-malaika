@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Submit Opinion - {{ app.name }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            
+            <div class="text-center mb-4">
+                <h2 class="font-weight-bold text-dark">Share Your Experience</h2>
+                <p class="text-muted">Reviewing: <span class="text-primary font-weight-bold">{{ app.name }}</span></p>
+            </div>
+
+            <div class="card shadow border-0" style="border-radius: 20px;">
+                <div class="card-header bg-primary text-white p-4 border-0" style="border-radius: 20px 20px 0 0;">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-robot fa-2x mr-3"></i>
+                        <div>
+                            <h5 class="mb-0">Sentiment Intelligence Active</h5>
+                            <small class="opacity-75">Your comment will be analyzed for Opinion Mining metrics.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-5">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+
+                        <div class="form-group mb-4">
+                            <label for="rating" class="font-weight-bold">Numerical Rating</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light border-right-0"><i class="fas fa-star text-warning"></i></span>
+                                </div>
+                                <select class="form-control bg-light border-left-0 shadow-none" id="rating" name="rating" required style="height: 50px;">
+                                    <option value="" disabled selected>How would you rate this app?</option>
+                                    <option value="5">5 - Excellent Experience</option>
+                                    <option value="4">4 - Very Good</option>
+                                    <option value="3">3 - Average / Fair</option>
+                                    <option value="2">2 - Poor Quality</option>
+                                    <option value="1">1 - Fraudulent / Very Bad</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="comment" class="font-weight-bold">Detailed Review (For Sentiment Analysis)</label>
+                            <textarea class="form-control bg-light shadow-none" id="comment" name="comment" rows="6" 
+                                placeholder="Describe your experience. Our AI will analyze your tone and keywords to detect potential fraud patterns..." 
+                                required style="border-radius: 12px;"></textarea>
+                            <small class="form-text text-muted mt-2">
+                                <i class="fas fa-info-circle mr-1"></i> Please be honest. Genuine feedback helps our system train better detection models.
+                            </small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block btn-lg shadow font-weight-bold py-3 mb-3" style="border-radius: 12px;">
+                            Analyze & Post Review
+                        </button>
+                        
+                        <div class="text-center">
+                            <a href="{% url 'app_details' app.id %}" class="btn btn-link text-muted btn-sm">
+                                <i class="fas fa-arrow-left mr-1"></i> Cancel and go back
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-light rounded-lg border text-center">
+                <p class="small text-secondary mb-0">
+                    <i class="fas fa-shield-alt mr-2 text-info"></i> 
+                    By submitting, you agree to have your review processed by our <strong>SentiWordNet</strong> analysis engine to determine review authenticity.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus {
+        border-color: var(--accent-color);
+        background-color: #fff !important;
+    }
+    .opacity-75 { opacity: 0.75; }
+    .input-group-text { border-radius: 12px 0 0 12px; }
+    select.form-control { border-radius: 0 12px 12px 0; }
+</style>
+{% endblock %}
